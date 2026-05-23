@@ -4,16 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>TalenLink</artifactId>
-  <groupId>com.talen</groupId>
+  <artifactId>TeLink</artifactId>
+  <groupId>com.te</groupId>
   <version>1.0</version>
 
   <packaging>pom</packaging>
 
   <modules>
-      <module>TalenLink-Common</module>
-    <module>TalenLink-Core</module>
-    <module>TalenLink-Bootstrap</module>
+      <module>TeLink-Common</module>
+    <module>TeLink-Core</module>
+    <module>TeLink-Bootstrap</module>
   </modules>
 
   <properties>
