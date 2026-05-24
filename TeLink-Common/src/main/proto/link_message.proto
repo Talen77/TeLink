@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package com.te.link.common.domain.protobuf;
+
+option java_package = "com.te.link.common.domain.protobuf";
+option java_multiple_files = true;
+
+message PacketHeader {
+  fixed32 app_id = 1;
+  fixed64 uid = 2;
+  string token = 3;
+  int32 compression = 4;
+  int32 encryption = 5;
+  int32 messageType = 6;
+}
+
+message PacketBody {
+  string data = 1;
+}

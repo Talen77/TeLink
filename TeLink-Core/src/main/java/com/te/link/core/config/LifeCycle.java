@@ -1,7 +1,7 @@
 package com.te.link.core.config;
 
 /**
- * @Author: xexgm
+ * @Author: Talen
  */
 public interface LifeCycle {
 
@@ -13,7 +13,7 @@ public interface LifeCycle {
     /**
      * 启动
      */
-    void start();
+    void start() throws InterruptedException;
 
     /**
      * 关闭

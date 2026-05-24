@@ -1,7 +1,7 @@
 package com.te.link.core.config;
 
 /**
- * @Author: xexgm
+ * @Author: Talen
  */
 public class NettyConfig {
     // boss、worker的数量

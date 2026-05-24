@@ -5,7 +5,7 @@ import lombok.Data;
 import static com.te.link.common.constant.LinkConfigConstant.*;
 
 /**
- * @Author: xexgm
+ * @Author: Talen
  */
 @Data
 public class LinkConfig {

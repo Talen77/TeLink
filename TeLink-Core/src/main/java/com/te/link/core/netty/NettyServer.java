@@ -1,21 +1,29 @@
 package com.te.link.core.netty;
 
 import com.te.link.common.utils.SystemUtil;
+import com.te.link.core.codec.MessageProtocolDecoder;
+import com.te.link.core.codec.MessageProtocolEncoder;
 import com.te.link.core.config.LifeCycle;
 import com.te.link.core.config.LinkConfig;
 import com.te.link.core.config.NettyConfig;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.concurrent.DefaultThreadFactory;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static com.te.link.common.constant.LinkConfigConstant.DEFAULT_PORT;
+
 /**
- * @Author: xexgm
+ * @Author: Talen
  * description: Netty 服务端实现
  */
 public class NettyServer implements LifeCycle {
@@ -52,9 +60,31 @@ public class NettyServer implements LifeCycle {
     }
 
     @Override
-    public void start() {
-        serverBootstrap.group(bossEventLoopGroup, workerEventLoopGroup)
-                .channel(SystemUtil.useEpollMode() ? EpollServerSocketChannel.class : NioServerSocketChannel.class);
+    public void start() throws InterruptedException {
+        try {
+            serverBootstrap.group(bossEventLoopGroup, workerEventLoopGroup)
+                    .channel(SystemUtil.useEpollMode() ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
+
+                        @Override
+                        protected void initChannel(SocketChannel ch) throws Exception {
+                            ch.pipeline()
+                                    // 自定义解码器
+                                    .addLast(new MessageProtocolDecoder())
+                                    // 自定义编码器
+                                    .addLast(new MessageProtocolEncoder());
+                                    // 自定义逻辑处理器
+                        }
+                    })
+                    .option(ChannelOption.SO_BACKLOG, 128)
+                    .childOption(ChannelOption.SO_KEEPALIVE, true);
+
+            ChannelFuture future = serverBootstrap.bind(DEFAULT_PORT).sync();
+            future.channel().closeFuture().sync();
+        } finally {
+            workerEventLoopGroup.shutdownGracefully();
+            bossEventLoopGroup.shutdownGracefully();
+        }
 
     }
 

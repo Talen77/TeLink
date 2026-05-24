@@ -3,7 +3,7 @@ package com.te.link.common.enums;
 import lombok.Getter;
 
 /**
- * @Author: xexgm
+ * @Author: Talen
  * description: 消息特征，如 私聊、群聊、客服、弹幕，等等
  */
 @Getter

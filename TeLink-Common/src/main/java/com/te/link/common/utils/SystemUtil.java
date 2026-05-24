@@ -3,7 +3,7 @@ package com.te.link.common.utils;
 import io.netty.channel.epoll.Epoll;
 
 /**
- * @Author: xexgm
+ * @Author: Talen
  */
 public class SystemUtil {
 

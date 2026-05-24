@@ -1,7 +1,7 @@
 package com.te.link.common.constant;
 
 /**
- * @Author: xexgm
+ * @Author: Talen
  */
 public interface LinkConfigConstant {
 

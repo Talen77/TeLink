@@ -14,7 +14,7 @@ import static com.te.link.common.constant.ProtoConstant.*;
 import static com.te.link.common.utils.ProtoUtil.calculateChecksum;
 
 /**
- * @Author: xexgm
+ * @Author: Talen
  * description: proto解码器
  */
 public class MultiProtocolDecoder extends ByteToMessageDecoder {
