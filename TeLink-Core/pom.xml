@@ -22,6 +22,12 @@
             <artifactId>TeLink-Common</artifactId>  <!-- 必须与Common模块的artifactId一致 -->
             <version>${project.version}</version>  <!-- 正确变量引用格式 -->
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>3.5.1</version>
+        </dependency>
     </dependencies>
 
 </project>
