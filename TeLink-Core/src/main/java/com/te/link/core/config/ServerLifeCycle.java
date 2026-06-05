@@ -3,7 +3,7 @@ package com.te.link.core.config;
 /**
  * @Author: Talen
  */
-public interface LifeCycle {
+public interface ServerLifeCycle {
 
     /**
      * 初始化
