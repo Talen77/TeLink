@@ -1,0 +1,28 @@
+package com.te.link.core.netty;
+
+import io.netty.channel.ChannelHandlerContext;
+
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * @Author: Talen
+ */
+public class UserChannelCtxMap {
+
+    private static ConcurrentHashMap<Long, ChannelHandlerContext> channelMap = new ConcurrentHashMap<>();
+
+    public static void addChannelCtx(Long userId, ChannelHandlerContext ctx) {
+        channelMap.putIfAbsent(userId, ctx);
+    }
+
+    public static void removeChannelCtx(Long userId) {
+        if (userId != null) {
+            channelMap.remove(userId);
+        }
+    }
+
+    public static ChannelHandlerContext getChannelCtx(Long userId) {
+        ChannelHandlerContext channelHandlerContext = channelMap.get(userId);
+        return channelHandlerContext;
+    }
+}

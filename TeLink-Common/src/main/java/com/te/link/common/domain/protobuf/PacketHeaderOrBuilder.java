@@ -8,23 +8,39 @@ public interface PacketHeaderOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
+   * <pre>
+   * 业务id，Link也是一个业务，标识所属业务模块
+   * </pre>
+   *
    * <code>fixed32 app_id = 1;</code>
    * @return The appId.
    */
   int getAppId();
 
   /**
+   * <pre>
+   * 用户id，标识发送方
+   * </pre>
+   *
    * <code>fixed64 uid = 2;</code>
    * @return The uid.
    */
   long getUid();
 
   /**
+   * <pre>
+   * 用户凭证，验证用户身份，16字节，可根据业务调整
+   * </pre>
+   *
    * <code>string token = 3;</code>
    * @return The token.
    */
   java.lang.String getToken();
   /**
+   * <pre>
+   * 用户凭证，验证用户身份，16字节，可根据业务调整
+   * </pre>
+   *
    * <code>string token = 3;</code>
    * @return The bytes for token.
    */
@@ -32,18 +48,30 @@ public interface PacketHeaderOrBuilder extends
       getTokenBytes();
 
   /**
+   * <pre>
+   * 1字节，压缩方式，标识是否启用压缩，0-不压缩，1-gzip
+   * </pre>
+   *
    * <code>int32 compression = 4;</code>
    * @return The compression.
    */
   int getCompression();
 
   /**
+   * <pre>
+   * 1字节，加密方式，标识是否启用加密，0-不加密，1-aes
+   * </pre>
+   *
    * <code>int32 encryption = 5;</code>
    * @return The encryption.
    */
   int getEncryption();
 
   /**
+   * <pre>
+   * 2字节，数据类型标识，标识数据类型，0-登录，1-心跳，2-ack，3-强制下线,4-私聊，5-群聊，6-系统消息，待扩展
+   * </pre>
+   *
    * <code>int32 messageType = 6;</code>
    * @return The messageType.
    */

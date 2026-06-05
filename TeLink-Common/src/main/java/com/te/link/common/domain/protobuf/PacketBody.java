@@ -90,6 +90,10 @@ private static final long serialVersionUID = 0L;
   public static final int DATA_FIELD_NUMBER = 1;
   private volatile java.lang.Object data_;
   /**
+   * <pre>
+   * json数据
+   * </pre>
+   *
    * <code>string data = 1;</code>
    * @return The data.
    */
@@ -107,6 +111,10 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
+   * <pre>
+   * json数据
+   * </pre>
+   *
    * <code>string data = 1;</code>
    * @return The bytes for data.
    */
@@ -429,6 +437,10 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object data_ = "";
     /**
+     * <pre>
+     * json数据
+     * </pre>
+     *
      * <code>string data = 1;</code>
      * @return The data.
      */
@@ -445,6 +457,10 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     * <pre>
+     * json数据
+     * </pre>
+     *
      * <code>string data = 1;</code>
      * @return The bytes for data.
      */
@@ -462,6 +478,10 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     * <pre>
+     * json数据
+     * </pre>
+     *
      * <code>string data = 1;</code>
      * @param value The data to set.
      * @return This builder for chaining.
@@ -477,6 +497,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * json数据
+     * </pre>
+     *
      * <code>string data = 1;</code>
      * @return This builder for chaining.
      */
@@ -487,6 +511,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * json数据
+     * </pre>
+     *
      * <code>string data = 1;</code>
      * @param value The bytes for data to set.
      * @return This builder for chaining.

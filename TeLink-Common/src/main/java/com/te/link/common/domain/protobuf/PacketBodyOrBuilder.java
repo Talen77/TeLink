@@ -8,11 +8,19 @@ public interface PacketBodyOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
+   * <pre>
+   * json数据
+   * </pre>
+   *
    * <code>string data = 1;</code>
    * @return The data.
    */
   java.lang.String getData();
   /**
+   * <pre>
+   * json数据
+   * </pre>
+   *
    * <code>string data = 1;</code>
    * @return The bytes for data.
    */

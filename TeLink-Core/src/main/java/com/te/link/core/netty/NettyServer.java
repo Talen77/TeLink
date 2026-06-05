@@ -6,6 +6,7 @@ import com.te.link.core.codec.MessageProtocolEncoder;
 import com.te.link.core.config.LinkConfig;
 import com.te.link.core.config.NettyConfig;
 import com.te.link.core.config.ServerLifeCycle;
+import com.te.link.core.netty.handler.LinkChannelHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -83,8 +84,8 @@ public class NettyServer implements ServerLifeCycle {
                                 // 自定义解码器
                                 .addLast(new MessageProtocolDecoder())
                                 // 自定义编码器
-                                .addLast(new MessageProtocolEncoder());
-                        // 自定义逻辑处理器
+                                .addLast(new MessageProtocolEncoder())
+                                .addLast(new LinkChannelHandler());
                     }
                 })
                 // bootstrap 还可以设置tcp参数，根据需要可以分别设置主线程池和从线程池参数，来优化性能

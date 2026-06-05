@@ -115,6 +115,10 @@ private static final long serialVersionUID = 0L;
   public static final int APP_ID_FIELD_NUMBER = 1;
   private int appId_;
   /**
+   * <pre>
+   * 业务id，Link也是一个业务，标识所属业务模块
+   * </pre>
+   *
    * <code>fixed32 app_id = 1;</code>
    * @return The appId.
    */
@@ -126,6 +130,10 @@ private static final long serialVersionUID = 0L;
   public static final int UID_FIELD_NUMBER = 2;
   private long uid_;
   /**
+   * <pre>
+   * 用户id，标识发送方
+   * </pre>
+   *
    * <code>fixed64 uid = 2;</code>
    * @return The uid.
    */
@@ -137,6 +145,10 @@ private static final long serialVersionUID = 0L;
   public static final int TOKEN_FIELD_NUMBER = 3;
   private volatile java.lang.Object token_;
   /**
+   * <pre>
+   * 用户凭证，验证用户身份，16字节，可根据业务调整
+   * </pre>
+   *
    * <code>string token = 3;</code>
    * @return The token.
    */
@@ -154,6 +166,10 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
+   * <pre>
+   * 用户凭证，验证用户身份，16字节，可根据业务调整
+   * </pre>
+   *
    * <code>string token = 3;</code>
    * @return The bytes for token.
    */
@@ -175,6 +191,10 @@ private static final long serialVersionUID = 0L;
   public static final int COMPRESSION_FIELD_NUMBER = 4;
   private int compression_;
   /**
+   * <pre>
+   * 1字节，压缩方式，标识是否启用压缩，0-不压缩，1-gzip
+   * </pre>
+   *
    * <code>int32 compression = 4;</code>
    * @return The compression.
    */
@@ -186,6 +206,10 @@ private static final long serialVersionUID = 0L;
   public static final int ENCRYPTION_FIELD_NUMBER = 5;
   private int encryption_;
   /**
+   * <pre>
+   * 1字节，加密方式，标识是否启用加密，0-不加密，1-aes
+   * </pre>
+   *
    * <code>int32 encryption = 5;</code>
    * @return The encryption.
    */
@@ -197,6 +221,10 @@ private static final long serialVersionUID = 0L;
   public static final int MESSAGETYPE_FIELD_NUMBER = 6;
   private int messageType_;
   /**
+   * <pre>
+   * 2字节，数据类型标识，标识数据类型，0-登录，1-心跳，2-ack，3-强制下线,4-私聊，5-群聊，6-系统消息，待扩展
+   * </pre>
+   *
    * <code>int32 messageType = 6;</code>
    * @return The messageType.
    */
@@ -595,6 +623,10 @@ private static final long serialVersionUID = 0L;
 
     private int appId_ ;
     /**
+     * <pre>
+     * 业务id，Link也是一个业务，标识所属业务模块
+     * </pre>
+     *
      * <code>fixed32 app_id = 1;</code>
      * @return The appId.
      */
@@ -603,6 +635,10 @@ private static final long serialVersionUID = 0L;
       return appId_;
     }
     /**
+     * <pre>
+     * 业务id，Link也是一个业务，标识所属业务模块
+     * </pre>
+     *
      * <code>fixed32 app_id = 1;</code>
      * @param value The appId to set.
      * @return This builder for chaining.
@@ -614,6 +650,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * 业务id，Link也是一个业务，标识所属业务模块
+     * </pre>
+     *
      * <code>fixed32 app_id = 1;</code>
      * @return This builder for chaining.
      */
@@ -626,6 +666,10 @@ private static final long serialVersionUID = 0L;
 
     private long uid_ ;
     /**
+     * <pre>
+     * 用户id，标识发送方
+     * </pre>
+     *
      * <code>fixed64 uid = 2;</code>
      * @return The uid.
      */
@@ -634,6 +678,10 @@ private static final long serialVersionUID = 0L;
       return uid_;
     }
     /**
+     * <pre>
+     * 用户id，标识发送方
+     * </pre>
+     *
      * <code>fixed64 uid = 2;</code>
      * @param value The uid to set.
      * @return This builder for chaining.
@@ -645,6 +693,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * 用户id，标识发送方
+     * </pre>
+     *
      * <code>fixed64 uid = 2;</code>
      * @return This builder for chaining.
      */
@@ -657,6 +709,10 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object token_ = "";
     /**
+     * <pre>
+     * 用户凭证，验证用户身份，16字节，可根据业务调整
+     * </pre>
+     *
      * <code>string token = 3;</code>
      * @return The token.
      */
@@ -673,6 +729,10 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     * <pre>
+     * 用户凭证，验证用户身份，16字节，可根据业务调整
+     * </pre>
+     *
      * <code>string token = 3;</code>
      * @return The bytes for token.
      */
@@ -690,6 +750,10 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     * <pre>
+     * 用户凭证，验证用户身份，16字节，可根据业务调整
+     * </pre>
+     *
      * <code>string token = 3;</code>
      * @param value The token to set.
      * @return This builder for chaining.
@@ -705,6 +769,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * 用户凭证，验证用户身份，16字节，可根据业务调整
+     * </pre>
+     *
      * <code>string token = 3;</code>
      * @return This builder for chaining.
      */
@@ -715,6 +783,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * 用户凭证，验证用户身份，16字节，可根据业务调整
+     * </pre>
+     *
      * <code>string token = 3;</code>
      * @param value The bytes for token to set.
      * @return This builder for chaining.
@@ -733,6 +805,10 @@ private static final long serialVersionUID = 0L;
 
     private int compression_ ;
     /**
+     * <pre>
+     * 1字节，压缩方式，标识是否启用压缩，0-不压缩，1-gzip
+     * </pre>
+     *
      * <code>int32 compression = 4;</code>
      * @return The compression.
      */
@@ -741,6 +817,10 @@ private static final long serialVersionUID = 0L;
       return compression_;
     }
     /**
+     * <pre>
+     * 1字节，压缩方式，标识是否启用压缩，0-不压缩，1-gzip
+     * </pre>
+     *
      * <code>int32 compression = 4;</code>
      * @param value The compression to set.
      * @return This builder for chaining.
@@ -752,6 +832,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * 1字节，压缩方式，标识是否启用压缩，0-不压缩，1-gzip
+     * </pre>
+     *
      * <code>int32 compression = 4;</code>
      * @return This builder for chaining.
      */
@@ -764,6 +848,10 @@ private static final long serialVersionUID = 0L;
 
     private int encryption_ ;
     /**
+     * <pre>
+     * 1字节，加密方式，标识是否启用加密，0-不加密，1-aes
+     * </pre>
+     *
      * <code>int32 encryption = 5;</code>
      * @return The encryption.
      */
@@ -772,6 +860,10 @@ private static final long serialVersionUID = 0L;
       return encryption_;
     }
     /**
+     * <pre>
+     * 1字节，加密方式，标识是否启用加密，0-不加密，1-aes
+     * </pre>
+     *
      * <code>int32 encryption = 5;</code>
      * @param value The encryption to set.
      * @return This builder for chaining.
@@ -783,6 +875,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * 1字节，加密方式，标识是否启用加密，0-不加密，1-aes
+     * </pre>
+     *
      * <code>int32 encryption = 5;</code>
      * @return This builder for chaining.
      */
@@ -795,6 +891,10 @@ private static final long serialVersionUID = 0L;
 
     private int messageType_ ;
     /**
+     * <pre>
+     * 2字节，数据类型标识，标识数据类型，0-登录，1-心跳，2-ack，3-强制下线,4-私聊，5-群聊，6-系统消息，待扩展
+     * </pre>
+     *
      * <code>int32 messageType = 6;</code>
      * @return The messageType.
      */
@@ -803,6 +903,10 @@ private static final long serialVersionUID = 0L;
       return messageType_;
     }
     /**
+     * <pre>
+     * 2字节，数据类型标识，标识数据类型，0-登录，1-心跳，2-ack，3-强制下线,4-私聊，5-群聊，6-系统消息，待扩展
+     * </pre>
+     *
      * <code>int32 messageType = 6;</code>
      * @param value The messageType to set.
      * @return This builder for chaining.
@@ -814,6 +918,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * 2字节，数据类型标识，标识数据类型，0-登录，1-心跳，2-ack，3-强制下线,4-私聊，5-群聊，6-系统消息，待扩展
+     * </pre>
+     *
      * <code>int32 messageType = 6;</code>
      * @return This builder for chaining.
      */
