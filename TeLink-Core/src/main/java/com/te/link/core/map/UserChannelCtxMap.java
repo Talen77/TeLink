@@ -1,4 +1,4 @@
-package com.te.link.core.netty;
+package com.te.link.core.map;
 
 import io.netty.channel.ChannelHandlerContext;
 
@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Author: Talen
+ * description: 保存 userId - channelHandlerCtx 的映射关系
  */
 public class UserChannelCtxMap {
 
