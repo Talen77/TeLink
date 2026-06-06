@@ -15,18 +15,26 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <!-- 依赖Common模块 -->
     <dependencies>
+        <!-- 依赖Common模块 -->
         <dependency>
             <groupId>com.te</groupId>  <!-- 必须与Common模块的groupId完全一致 -->
             <artifactId>TeLink-Common</artifactId>  <!-- 必须与Common模块的artifactId一致 -->
             <version>${project.version}</version>  <!-- 正确变量引用格式 -->
         </dependency>
 
+        <!-- 依赖kafka-->
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
             <version>3.5.1</version>
+        </dependency>
+
+        <!-- 依赖redis-->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>3.8.0</version>
         </dependency>
     </dependencies>
 

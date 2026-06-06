@@ -7,6 +7,7 @@ import com.te.link.core.codec.MessageProtocolEncoder;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.embedded.EmbeddedChannel;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import static com.te.link.common.constant.ProtoConstant.MAGIC;
@@ -16,6 +17,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * @Author: Talen
  */
+@Slf4j
 public class MessageProtocolDecoderTest {
     @Test
     public void testDecode() throws Exception {
