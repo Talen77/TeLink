@@ -6,7 +6,6 @@ import io.grpc.stub.StreamObserver;
 
 /**
  * @Author: Talen
- * @Date: 2025/4/28
  * @Description: 单条推送接口
  */
 public class PushServiceImpl extends PushServiceGrpc.PushServiceImplBase {
