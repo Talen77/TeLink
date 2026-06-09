@@ -5,13 +5,14 @@ package com.te.link.core.config;
  */
 public class KafkaConfig {
 
+    /**
+     * kafka host todo
+     */
     public static String SERVERS_CONFIG = "";
 
-    public static String LINK_TOPIC = "link_topic";
-
     /**
-     * 中台机器处理下行消息的 kafka 分区格式: down_link_topic_${machineId}
+     * 登录、心跳、登出 topic
      */
-    public static String DOWN_LINK_TOPIC_PREFIX = "down_link_topic_";
+    public static String LINK_TOPIC = "link_topic";
 
 }
