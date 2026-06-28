@@ -12,8 +12,8 @@ import com.te.link.core.config.NettyConfig;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,7 +25,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Slf4j
 public class NacosRegisterCenter implements RegisterCenterProcessor {
 
-    /** 用于维护服务实例信息 **/
+    /**
+     * 用于维护服务实例信息
+     **/
     private NamingService namingService;
 
     private final AtomicBoolean initialized = new AtomicBoolean(false);
@@ -51,17 +53,25 @@ public class NacosRegisterCenter implements RegisterCenterProcessor {
         Map<String, String> metadata = new HashMap<>();
         metadata.put("netty_port", "9999");
         metadata.put("grpc_port", "10001");
-        metadata.put("machine_id", LinkConfig.MACHINE_ID + "");
+        metadata.put(NacosRegisterConfig.MACHINE_ID_KEY, LinkConfig.MACHINE_ID + "");
         metadata.put("service_type", "composite"); // 标记复合型服务
 
         namingService.registerInstance(LinkConfig.SERVICENAME, NacosRegisterConfig.DEFAULT_GROUP, instance);
         log.info("[registerLinkMachine] instance: {}", instance);
 
         /**
-         * 服务发现使用                                               "gm-link"
+         * 服务发现使用                                               "te-link"
          * List<Instance> instances = namingService.getAllInstances(LinkConfig.SERVICENAME);
          */
 
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                namingService.deregisterInstance(LinkConfig.SERVICENAME, NacosRegisterConfig.DEFAULT_GROUP, instance);
+            } catch (NacosException e) {
+                log.info("[shutdownRegister] error: {}", e.getMessage());
+            }
+        }));
         /**
          * 优雅下线处理
          * Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -70,7 +80,7 @@ public class NacosRegisterCenter implements RegisterCenterProcessor {
          */
     }
 
-    // nacos监听器 -> gm-link 实例发生变化，更新本地机器的实例缓存，key: 机器id value: 机器ip
+    // nacos监听器 -> te-link 实例发生变化，更新本地机器的实例缓存，key: 机器id value: 机器ip
     // 新增内部机器连接管理者，存储 link集群机器信息，并且保存当前机器与其他机器的长连接
     @SneakyThrows(Exception.class)
     @Override

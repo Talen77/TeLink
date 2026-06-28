@@ -1,0 +1,40 @@
+package com.te.link.bootstrap;
+
+import com.te.link.core.Server.GrpcServer;
+import com.te.link.core.Server.NettyServer;
+import com.te.link.core.cache.LinkClusterManager;
+import com.te.link.core.config.LinkConfig;
+import com.te.link.core.config.NacosRegisterConfig;
+import com.te.link.core.register.NacosRegisterCenter;
+import com.te.link.core.register.RegisterCenterProcessor;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * @Author: Talen
+ */
+@Slf4j
+public class Bootstrap {
+
+    public static void run(String[] args) {
+        new Bootstrap().start(args);
+    }
+
+    public void start(String[] args) {
+        log.info("[startTeLink]...");
+
+        new NettyServer().start();
+        GrpcServer grpcServer = new GrpcServer();
+        grpcServer.start();
+        grpcServer.blockUntilShutdown();
+
+        // 初始化注册中心
+        initConfigCenter();
+
+    }
+
+    private void initConfigCenter() {
+        RegisterCenterProcessor registerCenterProcessor = new NacosRegisterCenter();
+        registerCenterProcessor.init();
+        registerCenterProcessor.subscribeServiceChange(LinkClusterManager::updateClusterInstances);
+    }
+}
