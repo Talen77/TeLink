@@ -1,9 +1,7 @@
-package com.te.link.core.processor;
+package com.te.link.core.netty.processor;
 
 import com.te.link.common.domain.model.CompleteMessage;
 import com.te.link.common.enums.MessageType;
-
-import static com.te.link.common.enums.MessageType.*;
 
 /**
  * @Author: Talen

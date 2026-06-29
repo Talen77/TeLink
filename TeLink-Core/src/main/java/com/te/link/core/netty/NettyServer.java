@@ -1,4 +1,4 @@
-package com.te.link.core.Server;
+package com.te.link.core.netty;
 
 import com.te.link.common.utils.SystemUtil;
 import com.te.link.core.codec.MessageProtocolDecoder;
@@ -6,7 +6,7 @@ import com.te.link.core.codec.MessageProtocolEncoder;
 import com.te.link.core.config.LinkConfig;
 import com.te.link.core.config.NettyConfig;
 import com.te.link.core.config.ServerLifeCycle;
-import com.te.link.core.handler.LinkChannelHandler;
+import com.te.link.core.netty.handler.LinkChannelHandler;
 import com.te.link.core.redis.MachineIdGenerator;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

@@ -1,4 +1,4 @@
-package com.te.link.core.processor;
+package com.te.link.core.netty.processor;
 
 import com.te.link.common.constant.ChannelAttrKey;
 import com.te.link.common.domain.model.CompleteMessage;
@@ -24,6 +24,7 @@ import static com.te.link.common.enums.MessageType.HEARTBEAT_MESSAGE;
 /**
  * @Author: Talen
  * description: 处理 客户端 -> 中台 心跳消息
+ * todo 减少心跳处理器的日志
  */
 @Slf4j
 public class HeartBeatProcessor extends AbstractMessageProcessor<CompleteMessage> {

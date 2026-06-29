@@ -1,4 +1,4 @@
-package com.te.link.core.handler;
+package com.te.link.core.netty.handler;
 
 import com.te.link.common.domain.model.CompleteMessage;
 import com.te.link.common.domain.model.MessageBody;

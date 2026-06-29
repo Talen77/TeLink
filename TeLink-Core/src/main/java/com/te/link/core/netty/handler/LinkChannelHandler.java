@@ -1,9 +1,9 @@
-package com.te.link.core.handler;
+package com.te.link.core.netty.handler;
 
 import com.te.link.common.domain.model.CompleteMessage;
 import com.te.link.common.enums.MessageType;
-import com.te.link.core.processor.AbstractMessageProcessor;
-import com.te.link.core.processor.ProcessorFactory;
+import com.te.link.core.netty.processor.AbstractMessageProcessor;
+import com.te.link.core.netty.processor.ProcessorFactory;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -20,4 +20,6 @@ public class LinkChannelHandler extends SimpleChannelInboundHandler<CompleteMess
         AbstractMessageProcessor<CompleteMessage> processor = ProcessorFactory.getProcessor(messageType);
         processor.process(channelHandlerContext, completeMessage);
     }
+
+    // todo 处理 idleState 事件
 }

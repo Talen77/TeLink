@@ -1,10 +1,8 @@
 package com.te.link.bootstrap;
 
-import com.te.link.core.Server.GrpcServer;
-import com.te.link.core.Server.NettyServer;
+import com.te.link.core.grpc.GrpcServer;
+import com.te.link.core.netty.NettyServer;
 import com.te.link.core.cache.LinkClusterManager;
-import com.te.link.core.config.LinkConfig;
-import com.te.link.core.config.NacosRegisterConfig;
 import com.te.link.core.register.NacosRegisterCenter;
 import com.te.link.core.register.RegisterCenterProcessor;
 import lombok.extern.slf4j.Slf4j;
