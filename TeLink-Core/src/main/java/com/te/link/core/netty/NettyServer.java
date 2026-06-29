@@ -7,7 +7,7 @@ import com.te.link.core.config.LinkConfig;
 import com.te.link.core.config.NettyConfig;
 import com.te.link.core.config.ServerLifeCycle;
 import com.te.link.core.netty.handler.LinkChannelHandler;
-import com.te.link.core.redis.MachineIdGenerator;
+import com.te.link.core.redis.RedisClient;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -46,7 +46,7 @@ public class NettyServer implements ServerLifeCycle {
     @Override
     public void init() {
         // 通过 reids 自增的 key，分配得到 机器id
-        LinkConfig.MACHINE_ID = MachineIdGenerator.getMachineId();
+        LinkConfig.MACHINE_ID = RedisClient.generateMachineId();
         log.info("[InitServer] getMachineId: {}", LinkConfig.MACHINE_ID);
 
         serverBootstrap = new ServerBootstrap();
