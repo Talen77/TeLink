@@ -2,6 +2,7 @@ package com.te.link.core.kafka;
 
 import com.te.link.core.config.KafkaConfig;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -11,10 +12,12 @@ import java.util.Properties;
 /**
  * @Author: Talen
  */
+@Slf4j
 public class KafkaProducerManager {
 
     private static final Properties props = new Properties() {
         {
+            log.info("[loadKafkaProducer] : {}", KafkaConfig.SERVERS_CONFIG);
             put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaConfig.SERVERS_CONFIG);
             put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
             put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
@@ -24,7 +27,15 @@ public class KafkaProducerManager {
 
     /* 状态服务生产者 */
     @Getter
-    private static KafkaProducer<String, String> producer = new KafkaProducer<>(props);
+    private static KafkaProducer<String, String> producer;
+
+    static {
+        try {
+            producer = new KafkaProducer<>(props);
+        } catch (Exception e) {
+            log.error("[KafkaProducerManager] init error" + e.getMessage(), e);
+        }
+    }
 
 //    static {
 //        // todo kafka地址待填
