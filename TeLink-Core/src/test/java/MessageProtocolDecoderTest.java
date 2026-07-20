@@ -4,10 +4,12 @@ import com.te.link.common.domain.protobuf.PacketBody;
 import com.te.link.common.domain.protobuf.PacketHeader;
 import com.te.link.core.codec.MessageProtocolDecoder;
 import com.te.link.core.codec.MessageProtocolEncoder;
+import com.te.link.core.kafka.KafkaProducerManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.embedded.EmbeddedChannel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.junit.Test;
 
 import static com.te.link.common.constant.ProtoConstant.MAGIC;
@@ -81,4 +83,11 @@ public class MessageProtocolDecoderTest {
         CompleteMessage decoded = decodeChannel.readInbound();
         assertEquals(testMessage, decoded);
     }
+
+    @Test
+    public void testKafkaProducerInitialization() {
+        KafkaProducer<String, String> producer = KafkaProducerManager.getProducer();
+        assertNotNull(producer);
+    }
+
 }
