@@ -5,6 +5,9 @@ import com.te.link.core.netty.NettyServer;
 import com.te.link.core.cache.LinkClusterManager;
 import com.te.link.core.register.NacosRegisterCenter;
 import com.te.link.core.register.RegisterCenterProcessor;
+import com.te.link.core.room.RoomFeature;
+import com.te.link.core.room.RoomNode;
+import com.te.link.core.room.RoomRuntime;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -21,7 +24,12 @@ public class Bootstrap {
         log.info("[startTeLink]...");
 
         new NettyServer().start();
-        GrpcServer grpcServer = new GrpcServer();
+        RoomNode roomNode = null;
+        if (RoomFeature.enabled()) {
+            roomNode = RoomRuntime.startWebSocket(com.te.link.core.config.LinkConfig.MACHINE_ID);
+            Runtime.getRuntime().addShutdownHook(new Thread(RoomRuntime::close));
+        }
+        GrpcServer grpcServer = new GrpcServer(roomNode == null ? null : roomNode.deliveryService());
 
         // 初始化注册中心
         initConfigCenter();

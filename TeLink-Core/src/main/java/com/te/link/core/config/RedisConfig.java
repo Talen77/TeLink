@@ -18,10 +18,13 @@ public class RedisConfig {
     public static String PREFIX_USER_ID = "user:";
 
     /** redis 获取机器id 地址 todo **/
-    public static String REDIS_HOST = "114.55.87.195";
+    public static String REDIS_HOST = System.getProperty("telink.redis.host", "114.55.87.195");
 
     /** redis 获取机器id 端口 **/
-    public static Integer REDIS_PORT = 6379;
+    public static Integer REDIS_PORT = Integer.getInteger("telink.redis.port", 6379);
+
+    /** 与现有 RedisClient 使用同一密码，可用 telink.redis.password 覆盖 **/
+    public static String REDIS_PASSWORD = System.getProperty("telink.redis.password", "123456");
 
     /** redis 机器id 前缀**/
     public static String MACHINE_ID_KEY = "machine:id:generator";

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_package = "com.te.link.common.grpc";
+option java_multiple_files = true;
+
+// 房间下行只在目标节点的本机连接上广播，接收方不得再次转发。
+service RoomDeliveryService {
+  rpc DeliverRoomMessage (RoomDeliveryRequest) returns (RoomDeliveryResponse);
+}
+
+message RoomDeliveryRequest {
+  string payload_json = 1;
+}
+
+message RoomDeliveryResponse {
+  bool accepted = 1;
+  int32 delivered_count = 2;
+}

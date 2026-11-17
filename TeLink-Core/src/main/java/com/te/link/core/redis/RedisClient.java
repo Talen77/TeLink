@@ -24,7 +24,7 @@ public class RedisClient {
         config.setMinIdle(50);  // 最小空闲连接数
         config.setMaxWait(Duration.ofMillis(500)); // 获取连接时的最大等待时间
         config.setTestOnBorrow(true); // 借用连接时进行有效性检查
-        jedisPool = new JedisPool(config, REDIS_HOST, REDIS_PORT, 2000, "123456");
+        jedisPool = new JedisPool(config, REDIS_HOST, REDIS_PORT, 2000, REDIS_PASSWORD);
         // 尝试初始化 key
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.setnx(MACHINE_ID_KEY, "0");

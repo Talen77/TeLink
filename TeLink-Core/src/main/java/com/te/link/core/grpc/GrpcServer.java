@@ -13,18 +13,26 @@ import java.io.IOException;
 @Slf4j
 public class GrpcServer {
     private final int port;
+    private final io.grpc.BindableService roomDeliveryService;
     private Server server;
 
     public GrpcServer() {
+        this(null);
+    }
+
+    public GrpcServer(io.grpc.BindableService roomDeliveryService) {
         this.port = GrpcConfig.GRPC_PORT;
+        this.roomDeliveryService = roomDeliveryService;
     }
 
     public void start() {
         try {
-            server = ServerBuilder.forPort(port)
-                    .addService(new PushServiceImpl())
-                    .build()
-                    .start();
+            ServerBuilder<?> builder = ServerBuilder.forPort(port)
+                    .addService(new PushServiceImpl());
+            if (roomDeliveryService != null) {
+                builder.addService(roomDeliveryService);
+            }
+            server = builder.build().start();
         } catch (IOException e) {
             log.info("[grpcServer] 初始化异常: {}", e.getMessage());
         }
