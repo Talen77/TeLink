@@ -1,6 +1,7 @@
 package com.te.link.core.room;
 
 import com.te.link.core.config.LinkConfig;
+import com.te.link.core.diag.JdbcLinkLogStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,10 +24,13 @@ public final class RoomRuntime {
         }
         JdbcMessageTrace trace = JdbcMessageTrace.fromSystemProperties();
         trace.ensureTable();
+        JdbcLinkLogStore logs = JdbcLinkLogStore.fromSystemProperties();
+        logs.ensureTable();
         directory = new RedisRoomDirectory();
         bus = KafkaMessageBus.fromSystemProperties();
         fanout = GrpcRoomFanout.nacos();
         node = new RoomNode(machineId, directory, trace, bus, fanout);
+        node.attachLogs(logs);
         node.startWebSocket(RoomFeature.webSocketPort());
         LinkConfig.MACHINE_ID = machineId;
         log.info("room runtime started, machineId:{}", machineId);

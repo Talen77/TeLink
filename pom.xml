@@ -15,6 +15,7 @@
     <module>TeLink-Core</module>
     <module>TeLink-Bootstrap</module>
     <module>TeLink-Service</module>
+    <module>TeLink-Mcp</module>
   </modules>
 
   <properties>

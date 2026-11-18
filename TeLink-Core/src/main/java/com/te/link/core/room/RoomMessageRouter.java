@@ -1,5 +1,7 @@
 package com.te.link.core.room;
 
+import com.te.link.core.diag.LinkLog;
+import com.te.link.core.diag.LinkLogStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +18,7 @@ public class RoomMessageRouter {
     private final MessageTrace trace;
     private final RoomFanout fanout;
     private final LocalRoomBroadcaster localBroadcaster;
+    private LinkLogStore logs = LinkLogStore.noop();
 
     public RoomMessageRouter(
             int machineId,
@@ -31,11 +34,16 @@ public class RoomMessageRouter {
         this.localBroadcaster = localBroadcaster;
     }
 
+    public void attachLogs(LinkLogStore logs) {
+        this.logs = logs == null ? LinkLogStore.noop() : logs;
+    }
+
     public void onDownstream(String key, String payload) {
         RoomRecord record = com.te.link.common.utils.JsonUtil.fromJson(payload, RoomRecord.class);
         Set<Integer> nodes = directory.findNodes(record.getRoomId());
         if (nodes.isEmpty()) {
             trace.advance(record, RoomMessageStatus.FAILED, machineId, "no-route");
+            fail(record, "no-route");
             log.info("room route missing, roomId:{}, logId:{}", record.getRoomId(), record.getLogId());
             return;
         }
@@ -52,7 +60,12 @@ public class RoomMessageRouter {
             trace.advance(record, RoomMessageStatus.DELIVERED, machineId, "delivered");
         } else {
             trace.advance(record, RoomMessageStatus.FAILED, machineId, "fanout-failed");
+            fail(record, "fanout-failed");
         }
+    }
+
+    private void fail(RoomRecord record, String reason) {
+        logs.append(new LinkLog(record.getLogId(), "ERROR", machineId, "room route failed", reason));
     }
 
     public interface LocalRoomBroadcaster {

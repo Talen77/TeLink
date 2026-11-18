@@ -125,6 +125,10 @@ public class RoomNode implements AutoCloseable {
         return deliveryService;
     }
 
+    public void attachLogs(com.te.link.core.diag.LinkLogStore logs) {
+        router.attachLogs(logs);
+    }
+
     /**
      * 退出下行消费组。验收用它把路由固定到仍在组内的节点。
      */

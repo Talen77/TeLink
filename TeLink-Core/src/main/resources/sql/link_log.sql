@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS link_log (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  log_id VARCHAR(64) NOT NULL,
+  level VARCHAR(16) NOT NULL,
+  machine_id INT NULL,
+  message VARCHAR(500) NOT NULL,
+  exception_text VARCHAR(2000) NULL,
+  created_at TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  KEY idx_link_log_log_id (log_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
