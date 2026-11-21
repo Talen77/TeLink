@@ -29,6 +29,7 @@ public final class RoomRuntime {
         directory = new RedisRoomDirectory();
         bus = KafkaMessageBus.fromSystemProperties();
         fanout = GrpcRoomFanout.nacos();
+        PlatformRuntime.bindMachine(machineId);
         node = new RoomNode(machineId, directory, trace, bus, fanout);
         node.attachLogs(logs);
         node.startWebSocket(RoomFeature.webSocketPort());

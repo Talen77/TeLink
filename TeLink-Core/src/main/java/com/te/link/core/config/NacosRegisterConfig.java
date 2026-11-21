@@ -12,7 +12,10 @@ public class NacosRegisterConfig {
 
 
     /** Nacos地址 host:port **/
-    public static final String SERVERADDR = "192.168.222.142" + ":" + "8848";
+    public static final String SERVERADDR = first(
+            System.getProperty("telink.nacos.addr"),
+            System.getenv("TELINK_NACOS_ADDR"),
+            "192.168.222.142:8848");
 
     /** nacos默认命名空间，为空，代表 Public **/
     public static final String DEFAULT_NAMESPACE = "";
@@ -43,4 +46,16 @@ public class NacosRegisterConfig {
 //    }
 
     public static final String MACHINE_ID_KEY = "machine_id";
+
+    private static String first(String... values) {
+        if (values == null) {
+            return "";
+        }
+        for (String value : values) {
+            if (value != null && !value.isBlank()) {
+                return value;
+            }
+        }
+        return "";
+    }
 }

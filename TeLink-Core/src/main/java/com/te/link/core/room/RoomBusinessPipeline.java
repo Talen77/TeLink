@@ -1,6 +1,9 @@
 package com.te.link.core.room;
 
 import com.te.link.common.utils.JsonUtil;
+import com.te.link.platform.log.Log;
+import com.te.link.platform.log.LogFactory;
+import com.te.link.platform.message.PushMessageStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,6 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public class RoomBusinessPipeline {
     private static final Logger log = LoggerFactory.getLogger(RoomBusinessPipeline.class);
+    private static final Log chain = LogFactory.getLog(RoomBusinessPipeline.class);
 
     private final PassThroughBusinessProcessor processor;
     private final MessageTrace trace;
@@ -29,7 +33,9 @@ public class RoomBusinessPipeline {
     public void onUpstream(String key, String payload) {
         String outbound = processor.process(key, payload);
         RoomRecord record = JsonUtil.fromJson(outbound, RoomRecord.class);
-        trace.advance(record, RoomMessageStatus.BUSINESS_PROCESSED, machineId, "business-processed");
+        trace.advance(record, RoomMessageStatus.BUSINESS_PROCESSED, machineId, record.getContent());
+        MessageTrail.status(record, PushMessageStatus.BUSINESS_PROCESSED);
+        chain.Info(MessageTrail.context(record), "BUSINESS_MESSAGE_PROCESSED");
         bus.publish(RoomTopics.OUT, key, outbound, new PublishListener() {
             @Override
             public void onSuccess() {
@@ -39,6 +45,8 @@ public class RoomBusinessPipeline {
             @Override
             public void onFailure(Throwable error) {
                 trace.advance(record, RoomMessageStatus.FAILED, machineId, error.getMessage());
+                MessageTrail.status(record, PushMessageStatus.FAILED);
+                chain.Error(MessageTrail.context(record), "BUSINESS_MESSAGE_FAILED");
                 log.warn("business output failed, logId:{}", record.getLogId(), error);
             }
         });

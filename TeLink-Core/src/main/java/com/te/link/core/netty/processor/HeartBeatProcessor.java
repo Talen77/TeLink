@@ -44,6 +44,7 @@ public class HeartBeatProcessor extends AbstractMessageProcessor<CompleteMessage
         // 从心跳消息中拿到 uid
         long uid = msg.getPacketHeader().getUid();
         log.info("[HeartBeatMessage] uid: {}", uid);
+        com.te.link.platform.NettyServer.Monitor.NodeMetrics.getInstance().heartbeat();
 
         // 拿到 channel，对心跳次数+1
         ChannelHandlerContext heartBeatCtx = UserChannelCtxMap.getChannelCtx(uid);

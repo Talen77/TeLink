@@ -25,8 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.te.link.common.constant.LinkConfigConstant.LISTENING_PORT;
-
 /**
  * @Author: Talen
  * description: Netty 服务端实现
@@ -102,10 +100,10 @@ public class NettyServer implements ServerLifeCycle {
 
         try {
             // 绑定端口，启动 select线程，轮询监听channel时间，监听到事件后，交给从线程池处理
-            ChannelFuture future = serverBootstrap.bind(LISTENING_PORT).sync();
+            ChannelFuture future = serverBootstrap.bind(NettyConfig.port).sync();
             // 启动标志
             this.started.compareAndSet(false, true);
-            log.info("[NettyServer started] 初始化完成，监听端口: {}", LISTENING_PORT);
+            log.info("[NettyServer started] 初始化完成，监听端口: {}", NettyConfig.port);
             // 等待服务端口关闭
             future.channel().closeFuture().addListener(f -> {
                 this.shutdown();

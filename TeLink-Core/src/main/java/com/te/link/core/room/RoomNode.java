@@ -2,6 +2,9 @@ package com.te.link.core.room;
 
 import com.te.link.common.utils.JsonUtil;
 import com.te.link.core.grpc.RoomDeliveryGrpcService;
+import com.te.link.platform.log.Log;
+import com.te.link.platform.log.LogFactory;
+import com.te.link.platform.message.PushMessageStatus;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.netty.bootstrap.ServerBootstrap;
@@ -19,10 +22,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
 public class RoomNode implements AutoCloseable {
     private static final Logger log = LoggerFactory.getLogger(RoomNode.class);
+    private static final Log chain = LogFactory.getLog(RoomNode.class);
 
     private final int machineId;
     private final RoomDirectory directory;
@@ -64,6 +70,7 @@ public class RoomNode implements AutoCloseable {
                                     .addLast(new WebSocketRoomHandler(RoomNode.this));
                         }
                     })
+                    .option(ChannelOption.SO_BACKLOG, 4096)
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .bind(port)
                     .sync()
@@ -87,7 +94,13 @@ public class RoomNode implements AutoCloseable {
     }
 
     public int broadcast(RoomRecord record) {
-        return registry.broadcast(record.getRoomId(), RoomFrames.event("MESSAGE_DELIVERED", record, null));
+        int delivered = registry.broadcast(record.getRoomId(), RoomFrames.event("MESSAGE_DELIVERED", record, null));
+        if (delivered > 0) {
+            MessageTrail.status(record, PushMessageStatus.DELIVERED);
+            MessageTrail.node(record, machineId, "DELIVERED");
+            chain.Info(MessageTrail.context(record).put("channelCount", delivered), "MESSAGE_DELIVERED");
+        }
+        return delivered;
     }
 
     public int machineId() {
@@ -177,11 +190,14 @@ public class RoomNode implements AutoCloseable {
     }
 
     private void refreshLeases() {
+        Set<Long> live = new TreeSet<>();
         for (Long roomId : registry.roomIds()) {
             if (!registry.isEmpty(roomId)) {
                 directory.refresh(roomId, machineId, RoomFeature.LEASE_SECONDS);
+                live.add(roomId);
             }
         }
+        RoomMirror.refresh(machineId, live);
     }
 
     static RoomRecord parse(String payload) {

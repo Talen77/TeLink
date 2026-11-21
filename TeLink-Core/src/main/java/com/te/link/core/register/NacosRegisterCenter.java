@@ -58,13 +58,14 @@ public class NacosRegisterCenter implements RegisterCenterProcessor {
 
         // 关键元数据配置
         Map<String, String> metadata = new HashMap<>();
-        metadata.put("netty_port", "9999");
-        metadata.put("te_grpc_port", "10001");
+        metadata.put("netty_port", String.valueOf(NettyConfig.port));
+        metadata.put("te_grpc_port", String.valueOf(com.te.link.core.config.GrpcConfig.GRPC_PORT));
         if (com.te.link.core.room.RoomFeature.enabled()) {
             metadata.put("websocket_port", String.valueOf(com.te.link.core.room.RoomFeature.webSocketPort()));
         }
         metadata.put(NacosRegisterConfig.MACHINE_ID_KEY, LinkConfig.MACHINE_ID + "");
-        metadata.put("service_type", "composite"); // 标记复合型服务
+        metadata.put("service_type", "composite");
+        instance.setMetadata(metadata);
 
         namingService.registerInstance(LinkConfig.SERVICENAME, NacosRegisterConfig.DEFAULT_GROUP, instance);
         log.info("[registerLinkMachine] instance: {}", instance);

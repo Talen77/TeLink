@@ -4,7 +4,6 @@ import com.te.link.common.grpc.RoomDeliveryServiceGrpc;
 import com.te.link.common.grpc.RoomDeliveryRequest;
 import com.te.link.common.grpc.RoomDeliveryResponse;
 import com.te.link.core.cache.LinkClusterManager;
-import com.te.link.core.config.GrpcConfig;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
@@ -28,7 +27,7 @@ public class GrpcRoomFanout implements RoomFanout, AutoCloseable {
             if (ip == null || ip.isBlank()) {
                 return null;
             }
-            return new Target(ip, GrpcConfig.GRPC_PORT);
+            return new Target(ip, LinkClusterManager.getGrpcPort(machineId));
         });
     }
 

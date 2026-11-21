@@ -5,5 +5,5 @@ package com.te.link.core.config;
  */
 public class GrpcConfig {
 
-    public static int GRPC_PORT = 10001;
+    public static int GRPC_PORT = Integer.getInteger("telink.grpc.port", 10001);
 }

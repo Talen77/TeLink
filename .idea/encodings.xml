@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/TalenLink-Bootstrap/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/TalenLink-Bootstrap/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/TalenLink-Common/src/main/proto" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TalenLink-Bootstrap/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/TalenLink-Common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TalenLink-Common/src/main/proto" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/TalenLink-Common/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/TalenLink-Core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/TalenLink-Core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TeLink-Bootstrap/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TeLink-Bootstrap/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TeLink-Common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TeLink-Common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TeLink-Core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TeLink-Core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TeLink-Knowledge/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TeLink-Knowledge/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TeLink-Mcp/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TeLink-Mcp/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TeLink-Service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/TeLink-Service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>

@@ -1,5 +1,7 @@
 package com.te.link.core.room;
 
+import com.te.link.platform.log.MysqlPool;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -65,7 +67,10 @@ public class JdbcMessageTrace implements MessageTrace, AutoCloseable {
 
     @Override
     public void advance(RoomRecord record, RoomMessageStatus status, int machineId, String detail) {
-        try (Connection connection = open(); PreparedStatement statement = connection.prepareStatement(UPSERT)) {
+        Connection connection = null;
+        try {
+            connection = MysqlPool.borrow(url, user, password);
+            try (PreparedStatement statement = connection.prepareStatement(UPSERT)) {
             statement.setString(1, record.getLogId());
             statement.setString(2, record.getMessageId() == null ? "" : record.getMessageId());
             statement.setLong(3, record.getRoomId());
@@ -79,8 +84,13 @@ public class JdbcMessageTrace implements MessageTrace, AutoCloseable {
             statement.setInt(7, machineId);
             statement.setString(8, detail == null ? "" : detail.substring(0, Math.min(detail.length(), 500)));
             statement.executeUpdate();
+            }
         } catch (SQLException exception) {
             throw new IllegalStateException("advance room message status failed", exception);
+        } finally {
+            if (connection != null) {
+                MysqlPool.giveBack(connection);
+            }
         }
     }
 

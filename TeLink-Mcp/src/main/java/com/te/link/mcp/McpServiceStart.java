@@ -1,8 +1,5 @@
 package com.te.link.mcp;
 
-import com.te.link.core.diag.JdbcLinkLogStore;
-import com.te.link.core.diag.NodeSnapshotStore;
-import com.te.link.core.room.RedisRoomDirectory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,12 +11,7 @@ public final class McpServiceStart {
     }
 
     public static void main(String[] args) throws Exception {
-        JdbcLinkLogStore logs = JdbcLinkLogStore.fromSystemProperties();
-        logs.ensureTable();
-        RedisRoomDirectory rooms = new RedisRoomDirectory();
-        int port = Integer.getInteger("telink.mcp.port", 9091);
-        McpHttpServer server = new McpHttpServer(port, new McpFacts(logs, rooms, NodeSnapshotStore.noop()));
-        log.info("telink mcp started, port:{}", server.port());
-        Thread.currentThread().join();
+        log.info("starting telink mcp");
+        com.te.link.platform.McpServiceStart.main(args);
     }
 }

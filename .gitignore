@@ -36,3 +36,10 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+.cursor/
+.tmp_ocr/
+config/local.properties
+.data/
+node_modules/
+dist/

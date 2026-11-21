@@ -16,5 +16,5 @@ public class NettyConfig {
     /**
      * 监听端口 9999
      */
-    public static int port = LISTENING_PORT;
+    public static int port = Integer.getInteger("telink.tcp.port", LISTENING_PORT);
 }

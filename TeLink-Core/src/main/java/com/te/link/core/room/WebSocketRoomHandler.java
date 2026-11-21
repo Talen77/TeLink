@@ -4,6 +4,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.te.link.common.utils.JsonUtil;
+import com.te.link.platform.NettyServer.Monitor.NodeMetrics;
+import com.te.link.platform.log.Log;
+import com.te.link.platform.log.LogFactory;
+import com.te.link.platform.log.LogIdGenerator;
+import com.te.link.platform.message.PushMessageStatus;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -12,10 +17,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class WebSocketRoomHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     private static final Logger log = LoggerFactory.getLogger(WebSocketRoomHandler.class);
+    private static final Log chain = LogFactory.getLog(WebSocketRoomHandler.class);
 
     private final RoomNode node;
 
@@ -48,10 +53,18 @@ public class WebSocketRoomHandler extends SimpleChannelInboundHandler<TextWebSoc
     }
 
     @Override
+    public void channelActive(ChannelHandlerContext context) throws Exception {
+        NodeMetrics.getInstance().channelActive();
+        super.channelActive(context);
+    }
+
+    @Override
     public void channelInactive(ChannelHandlerContext context) throws Exception {
+        NodeMetrics.getInstance().channelInactive();
         Long emptied = node.registry().leave(context.channel());
         if (emptied != null) {
             node.directory().unregister(emptied, node.machineId());
+            forget(emptied);
         }
         super.channelInactive(context);
     }
@@ -79,6 +92,7 @@ public class WebSocketRoomHandler extends SimpleChannelInboundHandler<TextWebSoc
         Long emptied = node.registry().join(roomId, context.channel());
         if (emptied != null) {
             node.directory().unregister(emptied, node.machineId());
+            forget(emptied);
         }
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("type", type);
@@ -86,6 +100,7 @@ public class WebSocketRoomHandler extends SimpleChannelInboundHandler<TextWebSoc
         body.put("userId", userId);
         body.put("message", message);
         context.writeAndFlush(new TextWebSocketFrame(JsonUtil.toJson(body)));
+        remember(roomId);
     }
 
     private void chat(ChannelHandlerContext context, JsonObject request) {
@@ -100,7 +115,7 @@ public class WebSocketRoomHandler extends SimpleChannelInboundHandler<TextWebSoc
             return;
         }
         RoomRecord record = new RoomRecord();
-        record.setLogId(UUID.randomUUID().toString().replace("-", ""));
+        record.setLogId(LogIdGenerator.next());
         record.setMessageId(requiredText(request, "messageId"));
         record.setRoomId(roomId);
         record.setUserId(optionalUserId(request));
@@ -108,20 +123,38 @@ public class WebSocketRoomHandler extends SimpleChannelInboundHandler<TextWebSoc
         record.setSentAt(request.has("sentAt") ? request.get("sentAt").getAsLong() : System.currentTimeMillis());
         record.setSourceMachineId(node.machineId());
         String payload = JsonUtil.toJson(record);
-        node.trace().advance(record, RoomMessageStatus.RECEIVED, node.machineId(), "received");
+        NodeMetrics.getInstance().messageReceived();
+        NodeMetrics.getInstance().businessMessageReceived();
+        NodeMetrics.getInstance().heartbeat();
+        chain.Info(MessageTrail.context(record), "WEBSOCKET_MESSAGE_RECEIVED");
+        node.trace().advance(record, RoomMessageStatus.RECEIVED, node.machineId(), content);
+        MessageTrail.status(record, PushMessageStatus.RECEIVED);
+        MessageTrail.node(record, node.machineId(), "SOURCE");
         node.bus().publish(RoomTopics.IN, String.valueOf(roomId), payload, new PublishListener() {
             @Override
             public void onSuccess() {
-                node.trace().advance(record, RoomMessageStatus.ACCEPTED, node.machineId(), "accepted");
+                node.trace().advance(record, RoomMessageStatus.ACCEPTED, node.machineId(), content);
+                MessageTrail.status(record, PushMessageStatus.ACCEPTED);
+                chain.Info(MessageTrail.context(record), "WEBSOCKET_MESSAGE_ACCEPTED");
                 context.writeAndFlush(new TextWebSocketFrame(RoomFrames.event("MESSAGE_ACCEPTED", record, "消息已进入业务队列")));
             }
 
             @Override
             public void onFailure(Throwable error) {
                 node.trace().advance(record, RoomMessageStatus.FAILED, node.machineId(), error.getMessage());
+                MessageTrail.status(record, PushMessageStatus.FAILED);
+                chain.Error(MessageTrail.context(record), "WEBSOCKET_MESSAGE_REJECTED");
                 reject(context, "MESSAGE_REJECTED", roomId, "消息写入失败");
             }
         });
+    }
+
+    private void remember(long roomId) {
+        RoomMirror.remember(node.machineId(), roomId, node.registry().roomIds());
+    }
+
+    private void forget(long roomId) {
+        RoomMirror.forget(node.machineId(), roomId, node.registry().roomIds());
     }
 
     private void reject(ChannelHandlerContext context, String type, Long roomId, String message) {
